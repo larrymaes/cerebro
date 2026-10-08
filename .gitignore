@@ -1,0 +1,8 @@
+   data/
+   *.vcf
+   *.vcf.gz
+   *.csi
+   *.tbi
+   *.bam
+   *.bai
+   __pycache__/
