@@ -61,4 +61,4 @@ Data files are downloaded locally and are not stored in this repo.
 
 Each step of the project is a separate commit. To see them:
 
-    git log --online
+    git log --oneline
