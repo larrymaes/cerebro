@@ -56,3 +56,9 @@ Cerebro detected 49484 mutations on chr22
 ```
 
 Data files are downloaded locally and are not stored in this repo.
+
+## Project history
+
+Each step of the project is a separate commit. To see them:
+
+    git log --online
