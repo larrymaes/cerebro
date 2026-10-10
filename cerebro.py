@@ -16,6 +16,7 @@ for line in vcf:
     fields = line.split("\t")
     ref = fields[3]
     alt = fields[4]
+    # Note: multiallelic sites (ALT contains a comma) are not handled yet
     if len(ref) == len(alt):
         SNP = SNP + 1
     elif len(ref) < len(alt):
