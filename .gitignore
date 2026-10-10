@@ -6,3 +6,4 @@ data/
 *.bam
 *.bai
 __pycache__/
+.vscode/
