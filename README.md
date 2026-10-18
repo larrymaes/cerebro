@@ -25,7 +25,8 @@ This is a learning project for practicing bioinformatics, Python, and Git.
 
 - [x] Fetch chromosome 22 variants with bcftools
 - [x] Read and count variants in Python
-- [ ] Annotate variants with SnpEff
+- [x] Classify variants as SNPs, insertions, or deletions
+- [x] Annotate variants with SnpEff
 - [ ] Assign mutant tiers
 - [ ] Print a mutant report
 
@@ -46,19 +47,29 @@ micromamba activate xmen
 
 ```bash
 ./fetch_data.sh      # downloads chr22 variants into data/
+./annotate.sh        # annotates them with SnpEff
 python cerebro.py
 ```
 
 Example output:
 
 ```
-Cerebro detected 49484 mutations on chr22
+Cerebro detected 49,484 mutations on chr22
+  SNPs:         42,625   86.1%
+  Insertions:    3,537   7.1%
+  Deletions:     3,322   6.7%
 ```
 
 Data files are downloaded locally and are not stored in this repo.
+
+## Known limitations
+
+- Multiallelic sites (480 on chr22, where ALT lists more than one allele) are not yet split, so their variant type may be misclassified.
 
 ## Project history
 
 Each step of the project is a separate commit. To see them:
 
-    git log --oneline
+```bash
+git log --oneline
+```
