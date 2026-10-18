@@ -46,7 +46,7 @@ micromamba activate xmen
 ## Usage
 
 ```bash
-./fetch_data.sh      # downloads chr22 variants into data/
+./fetch_data.sh      # downloads chr22 variants into data
 ./annotate.sh        # annotates them with SnpEff
 python cerebro.py
 ```
