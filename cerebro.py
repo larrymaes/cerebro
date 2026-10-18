@@ -1,13 +1,18 @@
 import gzip
 
-VCF_PATH = "data/NA12878.chr22.vcf.gz"
+VCF_PATH = "data/NA12878.chr22.GRCh38.mane.1.5.refseq.ann.vcf.gz"
+vcf = gzip.open(VCF_PATH, "rt")
 
 count = 0
-SNP = 0
+
+snp = 0
 ins = 0
 delete = 0
 
-vcf = gzip.open(VCF_PATH, "rt")
+omega = 0
+alpha = 0
+beta = 0
+gamma = 0
 
 for line in vcf:
     if line.startswith("#"):
@@ -16,9 +21,29 @@ for line in vcf:
     fields = line.split("\t")
     ref = fields[3]
     alt = fields[4]
+    info = fields[7]
+    notes = info.split(";")
+
+    for note in notes:
+        if note.startswith("ANN="):
+            ann = note[4:]
+            annotations = ann.split(",")
+            annotation = annotations[0]
+            parts = annotation.split("|")
+            impact = parts[2].lower()
+
+    if impact == "high":
+        omega = omega + 1
+    elif impact == "moderate":
+        alpha = alpha + 1
+    elif impact == "low":
+        beta = beta + 1
+    elif impact == "modifier":
+        gamma = gamma + 1
+
     # Note: multiallelic sites (ALT contains a comma) are not handled yet
     if len(ref) == len(alt):
-        SNP = SNP + 1
+        snp = snp + 1
     elif len(ref) < len(alt):
         ins = ins + 1
     else:
@@ -27,6 +52,11 @@ for line in vcf:
 vcf.close()
 
 print(f"Cerebro detected {count:,} mutations on chr22")
-print(f"  SNPs:       {SNP:>8,}   {SNP / count:.1%}")
+print(f"  SNPs:       {snp:>8,}   {snp / count:.1%}")
 print(f"  Insertions: {ins:>8,}   {ins / count:.1%}")
 print(f"  Deletions:  {delete:>8,}   {delete / count:.1%}")
+print()
+print(f"  Omega-level (HIGH):     {omega:>8,}   {omega / count:.1%}")
+print(f"  Alpha-level (MODERATE): {alpha:>8,}   {alpha / count:.1%}")
+print(f"  Beta-level (LOW):       {beta:>8,}   {beta / count:.1%}")
+print(f"  Gamma-level (MODIFIER): {gamma:>8,}   {gamma / count:.1%}")
