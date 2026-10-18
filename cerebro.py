@@ -14,6 +14,8 @@ alpha = 0
 beta = 0
 gamma = 0
 
+omega_list = []
+
 for line in vcf:
     if line.startswith("#"):
         continue
@@ -34,6 +36,12 @@ for line in vcf:
 
     if impact == "high":
         omega = omega + 1
+        pos = fields[1]
+        gene = parts[3]
+        effect = parts[1]
+        gt = fields[9].split(":")[0]
+        row = f"{pos:<10} {ref:<4} {alt:<4} {gene:<8} {effect:<36} {gt}"
+        omega_list.append(row)
     elif impact == "moderate":
         alpha = alpha + 1
     elif impact == "low":
@@ -60,3 +68,8 @@ print(f"  Omega-level (HIGH):     {omega:>8,}   {omega / count:.1%}")
 print(f"  Alpha-level (MODERATE): {alpha:>8,}   {alpha / count:.1%}")
 print(f"  Beta-level (LOW):       {beta:>8,}   {beta / count:.1%}")
 print(f"  Gamma-level (MODIFIER): {gamma:>8,}   {gamma / count:.1%}")
+print()
+print("  OMEGA-LEVEL MUTANTS")
+print(f"  {'POS':<10} {'REF':<4} {'ALT':<4} {'GENE':<8} {'EFFECT':<36} GT")
+for row in omega_list:
+    print(f"  {row}")

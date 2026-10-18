@@ -21,14 +21,14 @@ This is a learning project for practicing bioinformatics, Python, and Git.
 
 ## Status
 
-🚧 Work in progress
+✅ Version 1 complete.
 
 - [x] Fetch chromosome 22 variants with bcftools
 - [x] Read and count variants in Python
 - [x] Classify variants as SNPs, insertions, or deletions
 - [x] Annotate variants with SnpEff
 - [x] Assign mutant tiers
-- [ ] Print a mutant report
+- [x] Print a mutant report
 
 ## Requirements
 
@@ -63,9 +63,21 @@ Cerebro detected 49,484 mutations on chr22
   Alpha-level (MODERATE):      226   0.5%
   Beta-level (LOW):            306   0.6%
   Gamma-level (MODIFIER):   48,949   98.9%
+
+  OMEGA-LEVEL MUTANTS
+  POS        REF  ALT  GENE     EFFECT                               GT
+  24728176   C    T    PIWIL3   splice_donor_variant&intron_variant  0/1
+  36191797   ACT  A    APOL4    frameshift_variant                   1/1
+  50522253   C    T    NCAPH2   splice_donor_variant&intron_variant  0/1
 ```
 
 Data files are downloaded locally and are not stored in this repo.
+
+## Findings
+
+- Of 49,484 variants on chromosome 22, only 3 are predicted HIGH impact (Omega-level).
+- One is a 2-base deletion in APOL4 (not a whole 3-letter codon, so it shifts the reading frame), present on both copies of chr22.
+- NA12878 is a healthy individual, a reminder that "high impact" means a variant likely disrupts a protein, not that it causes disease.
 
 ## Known limitations
 
