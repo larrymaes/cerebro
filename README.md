@@ -27,7 +27,7 @@ This is a learning project for practicing bioinformatics, Python, and Git.
 - [x] Read and count variants in Python
 - [x] Classify variants as SNPs, insertions, or deletions
 - [x] Annotate variants with SnpEff
-- [ ] Assign mutant tiers
+- [x] Assign mutant tiers
 - [ ] Print a mutant report
 
 ## Requirements
@@ -58,6 +58,11 @@ Cerebro detected 49,484 mutations on chr22
   SNPs:         42,625   86.1%
   Insertions:    3,537   7.1%
   Deletions:     3,322   6.7%
+
+  Omega-level (HIGH):            3   0.0%
+  Alpha-level (MODERATE):      226   0.5%
+  Beta-level (LOW):            306   0.6%
+  Gamma-level (MODIFIER):   48,949   98.9%
 ```
 
 Data files are downloaded locally and are not stored in this repo.
@@ -65,6 +70,7 @@ Data files are downloaded locally and are not stored in this repo.
 ## Known limitations
 
 - Multiallelic sites (480 on chr22, where ALT lists more than one allele) are not yet split, so their variant type may be misclassified.
+- Only the first SnpEff annotation per variant is used, so a variant whose worst effect isn't listed first may land in a lower tier.
 
 ## Project history
 
