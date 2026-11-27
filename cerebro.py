@@ -1,7 +1,26 @@
 import gzip
+import subprocess as s
+from pathlib import Path
 
-VCF_PATH = "data/NA12878.chr22.GRCh38.mane.1.5.refseq.ann.vcf.gz"
+REPO_DIR = Path(__file__).resolve().parent
+CONFIG_PATH = REPO_DIR / "config.sh"
+
+config = {}
+for line in CONFIG_PATH.read_text().splitlines():
+    line = line.strip()
+    if not line or line.startswith("#") or "=" not in line:
+        continue
+    key, val = line.split("=", 1)
+    config[key.strip()] = val.strip().strip('"').strip("'")
+
+VCF_PATH = REPO_DIR / "data" / f"{config['SAMPLE']}.{config['REGION']}.{config['GENOME']}.ann.vcf.gz"
+if not VCF_PATH.exists():
+    print(f"Annotated VCF not found at {VCF_PATH}. Running fetch_data.sh and annotate.sh scripts now, standby...")
+    s.run(["bash", str(REPO_DIR / "fetch_data.sh")], check=True)
+    s.run(["bash", str(REPO_DIR / "annotate.sh")], check=True)
 vcf = gzip.open(VCF_PATH, "rt")
+
+
 
 count = 0
 
@@ -59,7 +78,11 @@ for line in vcf:
 
 vcf.close()
 
-print(f"Cerebro detected {count:,} mutations on chr22")
+if count== 0:
+    print(f"Cerebro detected 0 mutations on {config['REGION']} (check REGION naming or VCF contigs).")
+    raise SystemExit(0)
+
+print(f"Cerebro detected {count:,} mutations on {config['REGION']}")
 print(f"  SNPs:       {snp:>8,}   {snp / count:.1%}")
 print(f"  Insertions: {ins:>8,}   {ins / count:.1%}")
 print(f"  Deletions:  {delete:>8,}   {delete / count:.1%}")
