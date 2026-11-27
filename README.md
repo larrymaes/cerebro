@@ -45,11 +45,9 @@ micromamba activate xmen
 
 ## Usage
 
-```bash
-./fetch_data.sh      # downloads chr22 variants into data
-./annotate.sh        # annotates them with SnpEff
-python cerebro.py
-```
+1. Edit config.sh with desired URL, Sample, Region, and Genome (pre-configured with 'NA12878' / 'chr22' on 'GRCh38.mane.1.5.refseq' by default).
+2. Save config.sh
+3. Run cerebro.py
 
 Example output:
 
